@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="portFolio.css">
+    <link rel="stylesheet" href="projects.css">
   </head>
 
   <body>
@@ -44,48 +44,10 @@
         </div>
     </nav>
 
-    <section class="container vh-100 d-flex align-items-center">
-        <div class="row w-100">
-            
-            <!-- Left -->
-            <div class="col-md-6 text-center text-md-start">
-            <h1 class="fw-bold gunajChugh">Gunaj Chugh</h1>
-            <h2 class="fw-bold lead"></h2>
-            <section class="container py-5" id="about">
-    <div class="row align-items-center">
-        
-        <!-- Left -->
-        <div class="col-md-10">
-        <h2>About Me</h2>
-        <p>
-            <strong>Computer Science undergraduate</strong> experienced in developing <strong>real-time</strong> and <strong>full-stack applications</strong>, with <em>strong foundations in Data Structures, Algorithms, and backend systems.</em> <br>
-
-            Built projects involving <strong>computer vision</strong> and <strong>API-driven architectures</strong>, with a <em>focus on efficient, scalable, and low-latency systems</em>. <br>
-            
-            Demonstrated leadership as <strong>Technical Lead</strong>, <strong>mentoring 25+ developers</strong> and leading engineering initiatives.
-        </p>
-        </div>
-
-        <!-- Right -->
-        <div class="col-md-8 text-center">
-        <a href="https://www.linkedin.com/in/gunnaj/" class="btn btn-primary m-2">LinkedIn</a>
-        <a href="https://github.com/codedbygunnaj" class="btn btn-dark m-2">GitHub</a>
-        <a href="#" class="btn btn-outline-primary m-2">Resume</a>
-        </div>
-
+    <div class="container py-5">
+        <div class="row" id="projects-container"></div>
     </div>
-    </section>
-            </div>
 
-            <!-- Right -->
-            <div class="col-md-6 text-center">
-            <img src="/utils/gunaj_profilePic.jpg" class="img-fluid hero-img" />
-            </div>  
-
-        </div>
-
-    </section>    
-    
   </body>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -93,39 +55,63 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   
   <script>
-    const roles = [
-    "Software Engineer",
-    "Full Stack Developer",
-    "Data Engineer",
-    "Generative AI Developer"
-    ];
+    async function loadProjects() {
+        const res = await fetch(
+            "https://api.github.com/users/codedbygunnaj/repos",
+            {
+                headers: {
+                    Accept: "application/vnd.github.mercy-preview+json"
+                }
+            }
+        );
 
-    let index = 0;
-    let charIndex = 0;
+        const data = await res.json();
+        const container = document.getElementById("projects-container");
 
-    function typeEffect() {
-    let currentText = roles[index];
-    let display = currentText.substring(0, charIndex);
+        const filtered = data.filter(repo =>
+            repo.topics && repo.topics.includes("featured")
+        );
 
-    $(".lead").text(display);
+        filtered.sort((a, b) => b.stargazers_count - a.stargazers_count);
+        filtered.slice(0, 9).forEach(repo => {
 
-    if (charIndex < currentText.length) {
-        charIndex++;
-        setTimeout(typeEffect, 80);
-    } 
-    else {
-        setTimeout(() => {
-        charIndex = 0;
-        index = (index + 1) % roles.length;
-        typeEffect();
-        }, 1200);
-        }
+            const imageUrl = `https://raw.githubusercontent.com/${repo.owner.login}/${repo.name}/${repo.default_branch}/preview.png`;
+
+            const card = `
+                <div class="col-md-4 mb-4">
+                <div class="project-card">
+
+                    <div class="img-wrapper">
+                    <img src="${imageUrl}" 
+                        onerror="this.onerror=null; this.src='/utils/githubProject.webp';">
+
+                    <div class="overlay">
+                        <a href="${repo.html_url}" target="_blank" class="btn btn-light btn-sm">
+                        View Code
+                        </a>
+                        ${repo.homepage ? `
+                        <a href="${repo.homepage}" target="_blank" class="btn btn-success btn-sm ms-2">
+                            Live
+                        </a>
+                        ` : ""}
+                    </div>
+                    </div>
+
+                    <div class="card-content">
+                    <h5>${repo.name}</h5>
+                    <p>${repo.description || "No description available"}</p>
+                    <span class="badge bg-primary">${repo.language || "C++"}</span>
+                    </div>
+
+                </div>
+                </div>
+            `;
+
+            container.innerHTML += card;
+        });
     }
 
-    $(document).ready(function() {
-    typeEffect();
-    });
-    
+    loadProjects();
   </script>
 
 </html>
