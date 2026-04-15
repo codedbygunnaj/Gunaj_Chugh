@@ -20,3 +20,50 @@ h1 {
   background: #f8f9fa;
   border-radius: 20px;
 }
+.skill-box {
+  padding: 25px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.skill-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.skill-box h5 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.skill-box p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.achievement-card {
+  padding: 25px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.achievement-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.achievement-card h5 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.achievement-card p {
+  font-size: 0.95rem;
+  color: #555;
+}

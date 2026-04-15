@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./projects.css"
 import defaultPic from "./assets/githubProject.webp";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -31,54 +33,20 @@ export default function Projects() {
 
   return (
     <>
-      <nav className="navbar bg-primary" data-bs-theme="dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">Gunaj Chugh</a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">About</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/projects">Projects</Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Experience</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Additional Information
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Skills</a></li>
-                  <li><a className="dropdown-item" href="#">Achievements</a></li>
-                  <li><a className="dropdown-item" href="#">Download Resume</a></li>
-                  <li><a className="dropdown-item" href="#">Contact</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
+        <Navbar />
       <div className="container py-5">
+        <div className="projects-hero text-center mb-5">
+            <h1 className="fw-bold">My Projects</h1>
+            <p className="text-muted">
+            A collection of my work across Web Development, AI/ML, and Backend Systems.
+            </p>
+
+            <div className="d-flex justify-content-center gap-3 mt-3 flex-wrap">
+            <span className="badge bg-dark p-2">Full Stack</span>
+            <span className="badge bg-primary p-2">AI/ML</span>
+            <span className="badge bg-success p-2">Real-time Systems</span>
+            </div>
+        </div>
         <div className="row" id="projects-container">
           {projects.map((repo) => {
             const imageUrl = `https://raw.githubusercontent.com/${repo.owner.login}/${repo.name}/${repo.default_branch}/preview.png`;
@@ -132,6 +100,7 @@ export default function Projects() {
           })}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./portFolio.css"
 import profilePic from "./assets/gunaj_profilePic.jpg";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 const roles = [
   "Software Engineer",
@@ -35,53 +37,8 @@ export default function Portfolio() {
 
   return (
     <>
-      <nav className="navbar bg-primary" data-bs-theme="dark">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">Gunaj Chugh</Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">About</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/projects">Projects</Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Experience</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Additional Information
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Skills</a></li>
-                  <li><a className="dropdown-item" href="#">Achievements</a></li>
-                  <li><a className="dropdown-item" href="#">Download Resume</a></li>
-                  <li><a className="dropdown-item" href="#">Contact</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
 
+      <Navbar />
       <section className="container vh-100 d-flex align-items-center">
         <div className="row w-100">
 
@@ -127,7 +84,7 @@ export default function Portfolio() {
                   >
                     GitHub
                   </a>
-                  <a href="#" className="btn btn-outline-primary m-2">Resume</a>
+                  <a target="_blank" href="https://drive.google.com/file/d/181UpoSgmEd7cajJNiD8eXQE8QhqNyuu6/view?usp=sharing" className="btn btn-outline-primary m-2">Resume</a>
                 </div>
 
               </div>
@@ -145,6 +102,108 @@ export default function Portfolio() {
 
         </div>
       </section>
+      <section>
+        <div className="container py-5" id="skills">
+        <h2 className="text-center mb-5 fw-bold">Skills</h2>
+
+        <div className="row g-4">
+
+            {/* Programming */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>💻 Programming</h5>
+                <p>C++ • Python • JavaScript • C</p>
+            </div>
+            </div>
+
+            {/* Core CS */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>🧠 Core CS</h5>
+                <p>DSA • OOP • OS • DBMS • CN</p>
+            </div>
+            </div>
+
+            {/* Web */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>🌐 Web Dev</h5>
+                <p>React • Node.js • Express • Flask • REST APIs</p>
+            </div>
+            </div>
+
+            {/* Databases */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>🗄️ Databases</h5>
+                <p>MySQL • MongoDB • SQLite</p>
+            </div>
+            </div>
+
+            {/* AI/ML */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>🤖 AI/ML</h5>
+                <p>OpenCV • MediaPipe • NLP • Feature Engineering</p>
+            </div>
+            </div>
+
+            {/* Tools */}
+            <div className="col-md-4">
+            <div className="skill-box">
+                <h5>🛠️ Tools</h5>
+                <p>Git • Linux • Streamlit • UML • Agile</p>
+            </div>
+            </div>
+
+        </div>
+        </div>
+    </section>     
+    <section>
+        <div className="container py-5" id="achievements">
+            <h2 className="text-center mb-5 fw-bold">Achievements</h2>
+
+            <div className="row g-4">
+
+                <div className="col-md-4">
+                <div className="achievement-card">
+                    <h5>🏆 Hackathon Performance</h5>
+                    <p>Top 7% (Top 25 out of 350+ teams) in CodeClash 2.0 (GGSIPU)</p>
+                </div>
+                </div>
+
+                <div className="col-md-4">
+                <div className="achievement-card">
+                    <h5>💻 Problem Solving</h5>
+                    <p>Solved 390+ DSA problems across LeetCode & GeeksforGeeks</p>
+                </div>
+                </div>
+
+                <div className="col-md-4">
+                <div className="achievement-card">
+                    <h5>📈 Technical Contribution</h5>
+                    <p>Published solutions with 2900+ community views on LeetCode</p>
+                </div>
+                </div>
+
+                <div className="col-md-4">
+                <div className="achievement-card">
+                    <h5>🎓 Academic Excellence</h5>
+                    <p>Ranked 2nd in Class XII (Science Stream)</p>
+                </div>
+                </div>
+
+                <div className="col-md-4">
+                <div className="achievement-card">
+                    <h5>📊 Consistency</h5>
+                    <p>Among top 10% in B.Tech CSE batch</p>
+                </div>
+                </div>
+
+            </div>
+            </div>
+    </section> 
+    <Footer />
     </>
   );
 }
