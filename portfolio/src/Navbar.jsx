@@ -42,7 +42,7 @@ export default function Navbar() {
                 <Link className="dropdown-item" to="/#skills">Skills</Link>
                 <Link className="dropdown-item" to="/#achievements">Achievements</Link>
                 <li><a className="dropdown-item" target="_blank" href="https://drive.google.com/file/d/181UpoSgmEd7cajJNiD8eXQE8QhqNyuu6/view?usp=sharing">View Resume</a></li>
-                <li><a className="dropdown-item" href="#">Contact</a></li>
+                <li><a className="dropdown-item" href="/contact">Contact</a></li>
                 </ul>
             </li>
             </ul>
