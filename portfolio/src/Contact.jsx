@@ -3,6 +3,26 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 export default function Contact() {
+  async function handleSubmit(e){
+    e.preventDefault();
+
+    const formData={
+      name:e.target[0].value,
+      email:e.target[1].value,
+      subject:e.target[2].value,
+      message:e.target[3].value,
+    };
+
+    await fetch("http://localhost:5000/api/contact",{
+      method:"POST",
+        headers:{
+        "Content-Type": "application/json"
+      },
+      body:JSON.stringify(formData)
+    });
+
+    alert("message Sent!")
+  };
   return (
     <>
       <Navbar />
@@ -16,7 +36,7 @@ export default function Contact() {
             Have a project, idea, or opportunity? Let’s connect.
           </p>
 
-          <form>
+          <form onSubmit={handleSubmit}>
 
             <div className="mb-3">
               <label className="form-label">Name</label>
