@@ -13,7 +13,7 @@ export default function Contact() {
       message:e.target[3].value,
     };
 
-    await fetch("http://localhost:5000/api/contact",{
+    await fetch("https://gunaj-chugh.onrender.com/api/contact",{
       method:"POST",
         headers:{
         "Content-Type": "application/json"

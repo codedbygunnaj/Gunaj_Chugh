@@ -1,27 +1,33 @@
 const express = require('express');
-const cors=require('cors');
-const db=require('./db');
+const cors = require('cors');
+const db = require('./db');
 
-const App = express();
-App.use(express.json()); //middleware added
-App.use(cors());
+const app = express();
 
-App.listen(5000, () => {
-    console.log("Server running on port 5000");
+// middleware
+app.use(express.json());
+app.use(cors({
+  origin: "*"   // baad me Vercel URL daal dena
+}));
+
+// route
+app.post("/api/contact", (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  const sql = `INSERT INTO contacts (name,email,subject,message) VALUES (?,?,?,?)`;
+
+  db.query(sql, [name, email, subject, message], (err, result) => {
+    if (err) {
+      console.log("Error:", err);
+      return res.status(500).send("Error saving data");
+    }
+    res.send("Data saved successfully");
+  });
 });
 
-App.post("/api/contact",(req,res)=>{
-    const {name,email,subject,message}=req.body;
-    
-    const sql=`insert into contacts (name,email,subject,message) values(?,?,?,?)`
+// ✅ IMPORTANT CHANGE
+const PORT = process.env.PORT || 5000;
 
-    db.query(sql,[name,email,subject,message],(err,result)=>{
-        if(err){
-            console.log("Caught an error: ",err);
-            return res.status(500).send("Error saving data");
-        }else{
-            console.log("Data inserted:", result);
-            res.send("Data saved successfully");
-        }
-    }); 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
