@@ -22,6 +22,8 @@ export default function Contact() {
     });
 
     alert("message Sent!")
+
+    e.target.reset();
   };
   return (
     <>
