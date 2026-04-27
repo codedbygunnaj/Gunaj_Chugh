@@ -6,7 +6,7 @@ import Experience from "./Experience";
 import Contact from "./Contact";
 
 import Navbar from "./Navbar";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./profileCard";
 import Footer from "./Footer";
 
 function App() {
