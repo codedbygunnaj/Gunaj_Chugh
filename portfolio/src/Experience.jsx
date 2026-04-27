@@ -1,5 +1,5 @@
 import "./experience.css";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./profileCard";
 
 export default function Experience() {
   return (

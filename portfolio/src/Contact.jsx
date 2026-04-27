@@ -1,5 +1,5 @@
 import "./contact.css";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./profileCard";
 
 export default function Contact() {
   async function handleSubmit(e){

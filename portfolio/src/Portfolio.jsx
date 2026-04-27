@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./portFolio.css";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./profileCard";
 
 const roles = [
   "Software Engineer",

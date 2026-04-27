@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./projects.css";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./profileCard";
 import defaultPic from "./assets/githubProject.webp";
 
 export default function Projects() {
