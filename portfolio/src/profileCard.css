@@ -1,0 +1,101 @@
+.profile-card {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 10;
+
+  width: 270px;
+  padding: 25px;
+
+  background: linear-gradient(145deg, #111, #1a1a1a);
+  color: #e5e5e5;
+
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+  text-align: center;
+}
+
+/* Image */
+.profile-img img {
+  width: 110px;
+  height: 110px;
+  border-radius: 20px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #facc15;
+}
+
+/* Name */
+.profile-card h2 {
+  margin: 10px 0 5px;
+  color: white;
+}
+
+/* Role */
+.role {
+  background: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: inline-block;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+/* Divider */
+.profile-card hr {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 15px 0;
+}
+
+/* Info */
+.info p {
+  font-size: 13px;
+  margin: 12px 0;
+  text-align: left;
+}
+
+.info span {
+  display: block;
+  color: #888;
+  font-size: 11px;
+}
+
+/* Social links */
+.socials {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.socials a {
+  text-decoration: none;
+  color: #facc15;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.socials a:hover {
+  color: white;
+}
+
+/* Resume button */
+.resume-btn {
+  display: block;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  text-decoration: none;
+
+  background: #facc15;
+  color: black;
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.resume-btn:hover {
+  background: #eab308;
+}

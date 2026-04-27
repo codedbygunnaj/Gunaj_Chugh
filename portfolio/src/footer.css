@@ -1,8 +1,10 @@
 .footer {
-  background: #111;
+  background: transparent; /* #111 background ab ajeeb lagega left shift hone ke baad, isliye transparent */
   color: #fff;
   padding: 40px 0;
   margin-top: 50px;
+  margin-left: 360px; /* Main content wale margin ke barabar */
+  box-sizing: border-box;
 }
 
 .footer-links {
@@ -20,5 +22,5 @@
 }
 
 .footer-links a:hover {
-  color: #0d6efd;
+  color: #facc15; /* Portfolio theme se match karne ke liye yellow */
 }

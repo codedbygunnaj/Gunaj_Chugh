@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className="nav-container">
 
         {/* Logo */}
-        <Link className="nav-logo" to="/">Gunaj Chugh</Link>
+        <Link className="nav-logo" to="/">codedbygc</Link>
 
         {/* Links */}
         <ul className="nav-links">
@@ -25,18 +25,8 @@ export default function Navbar() {
             <Link to="/experience">Experience</Link>
           </li>
 
-          {/* Dropdown */}
-          <li className="dropdown">
-            <span className="dropbtn">More ▾</span>
-
-            <div className="dropdown-content">
-              <Link to="/#skills">Skills</Link>
-              <Link to="/#achievements">Achievements</Link>
-              <a href="https://drive.google.com" target="_blank" rel="noreferrer">
-                Resume
-              </a>
-              <Link to="/contact">Contact</Link>
-            </div>
+          <li>
+            <Link to="/contact">Contact</Link>
           </li>
 
         </ul>

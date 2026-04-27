@@ -1,6 +1,5 @@
 import "./contact.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import ProfileCard from "./ProfileCard";
 
 export default function Contact() {
   async function handleSubmit(e){
@@ -15,62 +14,83 @@ export default function Contact() {
 
     await fetch("https://gunaj-chugh.onrender.com/api/contact",{
       method:"POST",
-        headers:{
+      headers:{
         "Content-Type": "application/json"
       },
       body:JSON.stringify(formData)
     });
 
-    alert("message Sent!")
-
+    alert("Message Sent!");
     e.target.reset();
   };
+
   return (
-    <>
-      <Navbar />
+    <div className="main-layout">
 
-      <div className="container contact-container">
+      {/* Sidebar */}
+      <ProfileCard />
 
-        <div className="contact-box">
+      {/* Content */}
+      <div className="content">
 
-          <h2 className="text-center mb-3">Get in Touch</h2>
-          <p className="text-center text-muted mb-4">
-            Have a project, idea, or opportunity? Let’s connect.
-          </p>
-
-          <form onSubmit={handleSubmit}>
-
-            <div className="mb-3">
-              <label className="form-label">Name</label>
-              <input type="text" className="form-control" placeholder="Your Name" required />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Email</label>
-              <input type="email" className="form-control" placeholder="your@email.com" required />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Subject</label>
-              <input type="text" className="form-control" placeholder="Project / Opportunity" />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Message</label>
-              <textarea className="form-control" rows="4" placeholder="Write your message..." required></textarea>
-            </div>
-
-            <button className="btn btn-primary w-100" type="submit">
-              Send Message
-            </button>
-
-          </form>
-
+        <div className="contact-header">
+          <h1>Contact</h1>
+          <p>Have a project, idea, or opportunity? Let’s connect.</p>
         </div>
 
-      </div>
+        {/* ✅ FIXED WRAPPER */}
+        <div className="contact-wrapper">
 
-      <Footer />
-    </>
+          {/* LEFT */}
+          <div className="contact-box">
+
+            <form onSubmit={handleSubmit}>
+
+              <div className="mb-3">
+                <label>Name</label>
+                <input type="text" placeholder="Your Name" required />
+              </div>
+
+              <div className="mb-3">
+                <label>Email</label>
+                <input type="email" placeholder="your@email.com" required />
+              </div>
+
+              <div className="mb-3">
+                <label>Subject</label>
+                <input type="text" placeholder="Project / Opportunity" />
+              </div>
+
+              <div className="mb-3">
+                <label>Message</label>
+                <textarea rows="4" placeholder="Write your message..." required></textarea>
+              </div>
+
+              <button type="submit">Send Message</button>
+
+            </form>
+
+          </div>
+
+          {/* ✅ RIGHT SIDE (NOW CORRECTLY PLACED) */}
+          <div className="contact-side">
+            <div className="cta-box">
+              <h2>Let’s Work Together</h2>
+
+              <p>
+                Open to internships, freelance work, and full-time opportunities.
+                If you have a project or idea, I’d love to collaborate.
+              </p>
+
+              <div className="cta-buttons">
+                <a href="mailto:gunnajpchugh@gmail.com">Email Me</a>
+                <a href="https://www.linkedin.com/in/gunnaj/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/codedbygunnaj" target="_blank">GitHub</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
   );
 }

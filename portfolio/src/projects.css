@@ -1,54 +1,43 @@
+/* Hero */
+.projects-header {
+  margin-bottom: 30px;
+}
+
+.projects-header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.projects-header p {
+  color: #888;
+  font-size: 18px;
+}
+
+.projects-header p:hover {
+  color:gold;
+}
+/* Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+/* Card */
 .project-card {
-  border: none;
-  border-radius: 20px;
+  background: #141414;
+  border-radius: 15px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  background: #fff;
+  border: 1px solid #222;
+  transition: 0.3s;
 }
 
 .project-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.15);
 }
 
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-title {
-  font-weight: 700;
-}
-
-.card-text {
-  color: #666;
-  font-size: 0.95rem;
-}
-
-.badge {
-  margin-top: 10px;
-}
-
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.project-card {
-  border-radius: 20px;
-  overflow: hidden;
-  background: #e0d5d5;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.project-card:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-}
-
-/* IMAGE */
+/* Image */
 .img-wrapper {
   position: relative;
   height: 200px;
@@ -59,66 +48,58 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: 0.4s;
 }
 
-/* ZOOM EFFECT */
 .project-card:hover img {
   transform: scale(1.1);
 }
 
-/* OVERLAY */
+/* Overlay */
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0,0,0,0.6);
+  inset: 0;
+  background: rgba(0,0,0,0.7);
 
   display: flex;
+  gap: 15px;
   justify-content: center;
   align-items: center;
 
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: 0.3s;
 }
 
-/* SHOW ON HOVER */
 .project-card:hover .overlay {
   opacity: 1;
 }
 
-/* TEXT */
+.overlay a {
+  color: white;
+  background: #facc15;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/* Content */
 .card-content {
   padding: 15px;
 }
 
-.card-content h5 {
-  font-weight: 700;
+.card-content h4 {
+  margin-bottom: 5px;
+  color: white;
 }
 
 .card-content p {
-  font-size: 0.9rem;
-  color: #666;
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
-.projects-hero h1 {
-  font-size: 2.5rem;
-}
-
-.projects-hero p {
-  max-width: 600px;
-  margin: auto;
-  font-size: 1rem;
-}
-
-.projects-hero .badge {
-  font-size: 0.9rem;
-  border-radius: 10px;
-}
-
-.projects-hero {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
+.card-content span {
+  font-size: 12px;
+  color: #facc15;
 }

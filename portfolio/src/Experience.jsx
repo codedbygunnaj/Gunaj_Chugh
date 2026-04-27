@@ -1,19 +1,25 @@
 import "./experience.css";
-import { Link } from "react-router-dom";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import ProfileCard from "./ProfileCard";
 
 export default function Experience() {
   return (
-    <>
-      <Navbar />
-      <div className="container py-5">
+    <div className="main-layout">
 
-        <h1 className="mb-5 text-center">Experience</h1>
+      {/* Sidebar */}
+      <ProfileCard />
 
+      {/* Content */}
+      <div className="content">
+
+        {/* Header */}
+        <div className="exp-header">
+          <h1>Experience</h1>
+          <p>My journey building systems, leading teams, and solving real-world problems.</p>
+        </div>
+
+        {/* Timeline */}
         <div className="timeline">
 
-          {/* EXPERIENCE 1 */}
           <div className="timeline-item">
             <div className="timeline-content">
               <h4>Technical Lead - CICE</h4>
@@ -30,7 +36,6 @@ export default function Experience() {
             </div>
           </div>
 
-          {/* EXPERIENCE 2 */}
           <div className="timeline-item">
             <div className="timeline-content">
               <h4>AI/ML Developer</h4>
@@ -46,8 +51,7 @@ export default function Experience() {
               </ul>
             </div>
           </div>
-        
-          {/* EXPERIENCE 3 */}
+
           <div className="timeline-item">
             <div className="timeline-content">
               <h4>Full Stack Developer (Projects)</h4>
@@ -65,9 +69,10 @@ export default function Experience() {
               </ul>
             </div>
           </div>
+
         </div>
+
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }

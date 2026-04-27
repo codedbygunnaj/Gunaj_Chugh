@@ -10,19 +10,19 @@ export default function Footer() {
         <div className="footer-links">
 
           <a href="mailto:gunnajpchugh@gmail.com">
-            📧 Email
+            Email
           </a>
 
           <a href="https://www.linkedin.com/in/gunnaj/" target="_blank" rel="noreferrer">
-            💼 LinkedIn
+            LinkedIn
           </a>
 
           <a href="https://github.com/codedbygunnaj" target="_blank" rel="noreferrer">
-            🐙 GitHub
+            GitHub
           </a>
 
           <a href="https://leetcode.com/codedbygunnaj" target="_blank" rel="noreferrer">
-            🧠 LeetCode
+            LeetCode
           </a>
 
         </div>

@@ -1,69 +1,153 @@
-.hero-img {
-  max-width: 300px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+/* Content */
+/* Content */
+.content {
+  margin-left: 360px; 
+  padding: 50px 50px 50px 20px; 
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-h1 {
-  font-size: 3rem;
+/* Hero */
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.lead {
-  font-size: 2.2rem;
+.highlight {
+  font-size: 1.6rem;
+  color: #facc15;
   font-weight: 600;
-  color: #555;
-  transition: opacity 0.3s;
 }
 
-#about {
-  background: #f8f9fa;
-  border-radius: 20px;
+/* About */
+.about {
+  margin-top: 40px;
+  max-width: 700px;
 }
-.skill-box {
+
+.about h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.about p {
+  color: #d1d5db;   /* readable grey */
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.card p {
+  color: #bfc3c9;
+  font-size: 14.5px;
+}
+
+/* Section spacing */
+/* Section spacing */
+.what-i-do {
+  margin-top: 60px;
+}
+
+/* Heading ko thoda subtle flair de rahe hain */
+.what-i-do h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  display: inline-block;
+  border-bottom: 3px solid #facc15; /* Yellow underline for emphasis */
+  padding-bottom: 5px;
+}
+
+/* Cards - Auto wrapping magic */
+.cards {
+  display: grid;
+  /* Ye line cards ko squeeze hone se bachayegi aur jagah na hone pe niche bhej degi */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: #141414; 
   padding: 25px;
-  border-radius: 18px;
-  background: #ffffff;
-  border: 1px solid #eee;
+  border-radius: 15px;
+  border: 1px solid #222;
   transition: all 0.3s ease;
-  height: 100%;
+  position: relative;
+  z-index: 2;
+  
+  /* Text wrap secure karne ke liye */
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
-.skill-box:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+.card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 12px; /* Thoda breathing space */
+  color: #fff;
 }
 
-.skill-box h5 {
-  font-weight: 700;
-  margin-bottom: 10px;
+.card p {
+  color: #bfc3c9;
+  font-size: 14.5px;
+  line-height: 1.6; /* Padhne mein aur asaan hoga */
 }
 
-.skill-box p {
-  font-size: 0.95rem;
-  color: #555;
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #facc15;
+  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.15);
 }
 
-.achievement-card {
+body {
+  background-color: #0f0f0f;
+  overflow-x: hidden;
+  margin: 0;  
+}
+
+.content {
+  margin-left: 300px;
+  position: relative;
+  z-index: 1;
+}
+
+section {
+  background: transparent;
+}
+
+h1, h2, h3, h4 {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.card {
+  background: #141414; /* slightly darker */
+  border: 1px solid #222;
+  position: relative;
+  z-index: 2;
+}
+
+/* ABOUT CARD */
+.about-card {
+  background: #141414;
   padding: 25px;
-  border-radius: 18px;
-  background: #ffffff;
-  border: 1px solid #eee;
-  transition: all 0.3s ease;
-  height: 100%;
+  border-radius: 15px;
+  border: 1px solid #222;
+  margin-top: 20px;
+  transition: 0.3s;
 }
 
-.achievement-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+.about-card:hover {
+  border-color: #facc15;
+  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.1);
 }
 
-.achievement-card h5 {
-  font-weight: 700;
-  margin-bottom: 10px;
+/* TEXT */
+.about-card h2 {
+  margin-bottom: 15px;
 }
 
-.achievement-card p {
-  font-size: 0.95rem;
-  color: #555;
+.about-card p {
+  color: #ccc;
+  line-height: 1.8;
+  font-size: 15px;
 }
