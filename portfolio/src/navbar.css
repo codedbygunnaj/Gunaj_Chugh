@@ -82,3 +82,10 @@
 .dropdown:hover .dropdown-content {
   display: flex;
 }
+
+@media (max-width: 768px) {
+  .nav-links {
+    font-size: 14px;
+    gap: 10px;
+  }
+}

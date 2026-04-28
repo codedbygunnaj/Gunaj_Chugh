@@ -99,3 +99,10 @@
 .resume-btn:hover {
   background: #eab308;
 }
+
+@media (max-width: 768px) {
+  .cards,
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}

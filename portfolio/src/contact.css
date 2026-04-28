@@ -164,3 +164,13 @@
   background: #facc15;
   color: black;
 }
+
+@media (max-width: 768px) {
+  .contact-wrapper {
+    flex-direction: column;
+  }
+
+  .contact-side {
+    max-width: 100%;
+  }
+}

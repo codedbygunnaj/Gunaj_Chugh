@@ -25,3 +25,14 @@ body {
   display: flex;
   flex: 1;
 }
+
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
