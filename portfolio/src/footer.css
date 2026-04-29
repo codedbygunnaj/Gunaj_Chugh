@@ -1,26 +1,118 @@
 .footer {
-  background: transparent; /* #111 background ab ajeeb lagega left shift hone ke baad, isliye transparent */
-  color: #fff;
-  padding: 40px 0;
-  margin-top: 50px;
-  margin-left: 360px; /* Main content wale margin ke barabar */
-  box-sizing: border-box;
+  margin-top: 80px;
+  padding: 60px 40px;
+  /* 🔥 IMPORTANT: same as .content */
+  margin-left: 300px;
+
+  border-top: 1px solid #222;
 }
 
+/* align left, not center */
+.footer-container {
+  max-width: 800px;
+  margin-left: 200px;
+}
+
+/* Heading */
+.footer h2 {
+  margin-left: 80px;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+/* Subtext */
+.footer-subtext {
+  color: #aaa;
+  font-size: 18px;
+  margin-bottom: 25px;
+  margin-left: -100px;
+}
+.footer-subtext:hover{
+  color:gold;
+}
+
+/* CTA row */
+.footer-cta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0 25px;
+  flex-wrap: wrap;
+}
+
+/* 🔥 PRIMARY BUTTON */
+.hire-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+
+  background: #facc15;
+  color: black;
+  font-weight: 600;
+
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.hire-btn:hover {
+  background: #eab308;
+  transform: translateY(-2px);
+}
+
+/* 🔥 secondary email */
+.email-link {
+  color: #facc15;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+/* links */
 .footer-links {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .footer-links a {
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: #141414;
+  border: 1px solid #222;
+
   color: #ddd;
   text-decoration: none;
+  font-size: 14px;
+
   transition: 0.3s;
-  font-weight: 500;
 }
 
 .footer-links a:hover {
-  color: #facc15; /* Portfolio theme se match karne ke liye yellow */
+  border-color: #facc15;
+  color: #facc15;
+}
+
+/* Copyright */
+.footer-copy {
+  margin-top: 25px;
+  font-size: 13px;
+  color: #777;
+  margin-left: 101px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .footer {
+    margin-left: 0;   /* 🔥 remove sidebar offset */
+    padding: 40px 20px;
+  }
+
+  .footer-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
 }
