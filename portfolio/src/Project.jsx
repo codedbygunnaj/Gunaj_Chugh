@@ -16,7 +16,7 @@ export default function Projects() {
       const filtered = data
         .filter((repo) => repo.topics && repo.topics.includes("featured"))
         .sort((a, b) => b.stargazers_count - a.stargazers_count)
-        .slice(0, 8); // 👉 top 6 only (clean UI)
+        .slice(0, 10); // 👉 top 10 only (clean UI)
 
       setProjects(filtered);
     }
