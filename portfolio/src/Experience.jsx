@@ -22,8 +22,8 @@ export default function Experience() {
 
           <div className="timeline-item">
             <div className="timeline-content">
-              <h4>Technical Lead - CICE</h4>
-              <span className="time">2025 - Present</span>
+              <h4>Product Developement Intern - Social[CX]</h4>
+              <span className="time">May, 2026 - Present</span>
               <p>
                 Leading technical initiatives and mentoring 25+ students in
                 development and project building.
@@ -32,6 +32,23 @@ export default function Experience() {
                 <li>Organized technical workshops & coding sessions</li>
                 <li>Guided teams in building real-world projects</li>
                 <li>Managed event execution and technical planning</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="timeline-item">
+            <div className="timeline-content">
+              <h4>Technical Lead - CICE</h4>
+              <span className="time">May, 2025 - June, 2026</span>
+              <p>
+                  Working on product development, debugging, 
+                  and feature enhancement for a scalable social media analytics platform.
+              </p>
+              <ul>
+                <li>Improved frontend components and fixed UI/UX inconsistencies across dashboards</li>
+                <li>Worked on sentiment-analysis related modules and post-inspection workflows</li>
+                <li>Debugged performance issues, API integration flows, and infinite-scroll behavior</li>
+                <li>Collaborated with the development team on production-level feature updates</li>
               </ul>
             </div>
           </div>
