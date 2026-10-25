@@ -1,6 +1,10 @@
+import { getGmailComposeUrl } from "./utils/mailHelper";
 import "./footer.css";
 
 export default function Footer() {
+  const gmailUrl = getGmailComposeUrl({
+    subject: "Engineering Opportunity / Discussion - Gunaj Chugh",
+  });
   return (
     <footer className="modern-footer">
       <div className="footer-card card-3d-imprint">
@@ -15,7 +19,13 @@ export default function Footer() {
           </div>
 
           <div className="footer-action-block">
-            <a href="mailto:gunnajpchugh@gmail.com" className="hire-btn">
+            <a
+              href={gmailUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hire-btn"
+              title="Compose message directly in Gmail"
+            >
               <span>Hire Me / Email</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="7" y1="17" x2="17" y2="7"></line>

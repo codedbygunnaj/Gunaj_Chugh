@@ -1,4 +1,11 @@
 import { useState, useEffect } from "react";
+import {
+  GUNAJ_EMAIL,
+  BACKEND_API_URL,
+  getGmailComposeUrl,
+  getMailtoUrl,
+  copyToClipboard,
+} from "../utils/mailHelper";
 import "./resumeModal.css";
 
 const RESUME_DRIVE_URL =
@@ -13,7 +20,7 @@ export default function ResumeModal({ isOpen, onClose }) {
     note: "",
     passcode: "",
   });
-  const [status, setStatus] = useState("idle"); // idle | sending | success | unlocked
+  const [status, setStatus] = useState("idle"); // idle | sending | success | server-asleep | unlocked
   const [copied, setCopied] = useState(false);
 
   // Close on Escape key
@@ -42,10 +49,12 @@ export default function ResumeModal({ isOpen, onClose }) {
     }
   }
 
-  function handleCopyEmail() {
-    navigator.clipboard.writeText("gunnajpchugh@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
+  async function handleCopyEmail() {
+    const ok = await copyToClipboard(GUNAJ_EMAIL);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    }
   }
 
   async function handleSubmit(e) {
@@ -55,15 +64,15 @@ export default function ResumeModal({ isOpen, onClose }) {
     const payload = {
       name: formData.name,
       email: formData.email,
-      subject: `[Resume Request] ${formData.name} - ${formData.company || "Direct Request"}`,
-      message: `Resume Request Details:\n• Name: ${formData.name}\n• Work Email: ${formData.email}\n• Company/Team: ${formData.company || "N/A"}\n• Role/Message: ${formData.note || "Interested in reviewing Gunaj's resume."}`,
+      company: formData.company || "Direct Recruiter / Visitor",
+      note: formData.note || "Interested in reviewing Gunaj's resume.",
     };
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      const res = await fetch("https://gunaj-chugh.onrender.com/api/contact", {
+      const res = await fetch(`${BACKEND_API_URL}/api/resume-request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,22 +82,45 @@ export default function ResumeModal({ isOpen, onClose }) {
       });
 
       clearTimeout(timeoutId);
+
       if (res.ok) {
         setStatus("success");
       } else {
-        setStatus("success");
+        // Fallback to /api/contact if /api/resume-request not yet deployed on Render
+        const fallbackRes = await fetch(`${BACKEND_API_URL}/api/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: `[Resume Request] ${formData.name} - ${formData.company || "Direct"}`,
+            message: `Resume Request:\nName: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\nNote: ${formData.note}`,
+          }),
+        });
+
+        if (fallbackRes.ok) {
+          setStatus("success");
+        } else {
+          setStatus("server-asleep");
+        }
       }
     } catch {
-      setStatus("success");
+      setStatus("server-asleep");
     }
   }
 
-  // Pre-filled mailto URL for 1-click dispatch
-  const mailtoBody = encodeURIComponent(
-    `Hi Gunaj,\n\nI came across your portfolio and would like to review your latest resume for software engineering opportunities.\n\nHere are my details:\n• Name: ${formData.name || ""}\n• Company / Organization: ${formData.company || ""}\n• Role / Opportunity: ${formData.note || ""}\n• Email: ${formData.email || ""}\n\nLooking forward to connecting!\n\nBest regards,`
-  );
-  const mailtoSubject = encodeURIComponent("Resume Request - Gunaj Chugh");
-  const directMailtoUrl = `mailto:gunnajpchugh@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+  // Pre-filled direct Gmail & mailto links guaranteed to work
+  const directGmailUrl = getGmailComposeUrl({
+    to: GUNAJ_EMAIL,
+    subject: `Resume Request - ${formData.name || "Gunaj Chugh"} (${formData.company || "Engineering Role"})`,
+    body: `Hi Gunaj,\n\nI came across your portfolio and would like to review your latest resume for software engineering opportunities.\n\nMy Details:\n• Name: ${formData.name || ""}\n• Company / Organization: ${formData.company || ""}\n• Role / Opportunity: ${formData.note || ""}\n• Email: ${formData.email || ""}\n\nLooking forward to receiving your resume PDF!\n\nBest regards,`,
+  });
+
+  const directMailtoUrl = getMailtoUrl({
+    to: GUNAJ_EMAIL,
+    subject: `Resume Request - ${formData.name || "Gunaj Chugh"}`,
+    body: `Hi Gunaj,\n\nI would like to review your latest resume.\n\nName: ${formData.name || ""}\nCompany: ${formData.company || ""}\nRole: ${formData.note || ""}\nEmail: ${formData.email || ""}\n\nBest regards,`,
+  });
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -120,35 +152,94 @@ export default function ResumeModal({ isOpen, onClose }) {
 
           <h3 className="modal-title">Request Official Resume</h3>
           <p className="modal-desc">
-            To prevent automated scraping and connect with genuine recruiters, official resumes are shared directly via verified request or email.
+            To connect with genuine engineering teams and recruiters, official resumes are shared directly via verified request or email.
           </p>
         </div>
 
-        {/* State: SUCCESS (Request Sent) */}
+        {/* State 1: SUCCESS (Request Sent) */}
         {status === "success" ? (
           <div className="modal-success-state">
-            <div className="success-icon-ring">✓</div>
-            <h4>Resume Request Received!</h4>
+            <div className="success-icon-ring">&#10003;</div>
+            <h4>Resume Request Dispatched!</h4>
             <p>
-              Thank you, <strong>{formData.name || "there"}</strong>. I have received your request and will review and dispatch my latest resume to <strong>{formData.email}</strong> shortly.
+              Thank you, <strong>{formData.name || "there"}</strong>. Gunaj has received your request and will dispatch his latest resume to <strong>{formData.email}</strong> shortly.
             </p>
             <div className="success-actions">
-              <a href={directMailtoUrl} className="mail-fallback-link">
-                Need it immediately? Click to trigger direct email client &rarr;
+              <a
+                href={directGmailUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-modal-primary"
+                style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>Also Open in Gmail (Immediate)</span>
               </a>
               <button
                 type="button"
-                className="btn-modal-primary"
+                className="btn-modal-secondary"
                 onClick={onClose}
               >
                 Close &amp; Continue Browsing
               </button>
             </div>
           </div>
+        ) : status === "server-asleep" ? (
+          /* State 2: SERVER SLEEPING FALLBACK */
+          <div className="modal-success-state">
+            <div className="success-icon-ring" style={{ color: "#facc15", borderColor: "rgba(250, 204, 21, 0.4)", background: "rgba(250, 204, 21, 0.1)" }}>&#9888;</div>
+            <h4>Backend Server Waking Up</h4>
+            <p>
+              Render free tier instances take ~50s to wake from sleep. <strong>Your details are saved!</strong> Click below to dispatch your resume request directly via Gmail in 1 click:
+            </p>
+            <div className="success-actions" style={{ marginTop: "14px", width: "100%" }}>
+              <a
+                href={directGmailUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-modal-primary"
+                style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px", width: "100%" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>1-Click Dispatch via Gmail</span>
+              </a>
+              <div style={{ display: "flex", gap: "8px", width: "100%", marginTop: "6px" }}>
+                <a
+                  href={directMailtoUrl}
+                  className="btn-modal-secondary"
+                  style={{ textDecoration: "none", flex: 1, textAlign: "center" }}
+                >
+                  Mail App
+                </a>
+                <button
+                  type="button"
+                  className="btn-modal-secondary"
+                  style={{ flex: 1 }}
+                  onClick={handleCopyEmail}
+                >
+                  {copied ? "Copied!" : "Copy Email"}
+                </button>
+                <button
+                  type="button"
+                  className="btn-modal-secondary"
+                  style={{ flex: 1 }}
+                  onClick={handleSubmit}
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </div>
         ) : status === "unlocked" ? (
-          /* State: UNLOCKED via VIP Passcode */
+          /* State 3: UNLOCKED via VIP Passcode */
           <div className="modal-unlocked-state">
-            <div className="unlocked-icon-ring">🔓</div>
+            <div className="unlocked-icon-ring">&#128275;</div>
             <h4>VIP Access Granted!</h4>
             <p>Welcome! Your recruiter passcode has been authenticated. You can view or download the direct resume PDF below.</p>
             <div className="unlocked-actions">
@@ -171,7 +262,7 @@ export default function ResumeModal({ isOpen, onClose }) {
             </div>
           </div>
         ) : (
-          /* State: IDLE / FORM */
+          /* State 4: IDLE / FORM */
           <div className="modal-body-layout">
             {/* Quick Request Form */}
             <form onSubmit={handleSubmit} className="resume-request-form">
@@ -256,19 +347,22 @@ export default function ResumeModal({ isOpen, onClose }) {
             {/* Quick 1-Click Alternate Options Strip */}
             <div className="modal-alternate-strip">
               <div className="divider-text">
-                <span>OR DISPATCH VIA EMAIL CLIENT</span>
+                <span>OR DISPATCH DIRECTLY VIA GMAIL / CLIENT</span>
               </div>
 
               <div className="alternate-buttons-row">
                 <a
-                  href={directMailtoUrl}
+                  href={directGmailUrl}
+                  target="_blank"
+                  rel="noreferrer"
                   className="btn-modal-secondary direct-mail-btn"
+                  title="Opens directly in browser Gmail with template ready"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                     <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
-                  <span>1-Click Mailto Template</span>
+                  <span>Compose in Gmail</span>
                 </a>
 
                 <button
@@ -276,7 +370,7 @@ export default function ResumeModal({ isOpen, onClose }) {
                   className="btn-modal-secondary copy-mail-btn"
                   onClick={handleCopyEmail}
                 >
-                  {copied ? "Copied gunnajpchugh@gmail.com!" : "Copy Email Address"}
+                  {copied ? "Copied gunnajpchugh@gmail.com!" : "Copy Email"}
                 </button>
               </div>
 
@@ -287,7 +381,7 @@ export default function ResumeModal({ isOpen, onClose }) {
                   <input
                     type="text"
                     name="passcode"
-                    placeholder="Enter access code"
+                    placeholder="Enter access code (e.g. GC2026)"
                     value={formData.passcode}
                     onChange={handleChange}
                   />

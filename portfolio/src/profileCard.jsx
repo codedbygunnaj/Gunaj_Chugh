@@ -1,6 +1,7 @@
 import { useState } from "react";
 import profilePic from "./assets/gunaj_profilePic.jpg";
 import ResumeModal from "./components/ResumeModal";
+import { getGmailComposeUrl } from "./utils/mailHelper";
 import "./profileCard.css";
 
 export default function ProfileCard() {
@@ -34,7 +35,13 @@ export default function ProfileCard() {
         <div className="info">
           <div className="info-item">
             <span className="info-label">Email</span>
-            <a href="mailto:gunnajpchugh@gmail.com" className="info-value">
+            <a
+              href={getGmailComposeUrl({ subject: "Hello Gunaj - Software Engineering Inquiry" })}
+              target="_blank"
+              rel="noreferrer"
+              className="info-value"
+              title="Click to compose email in Gmail"
+            >
               gunnajpchugh@gmail.com
             </a>
           </div>

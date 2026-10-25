@@ -1,35 +1,56 @@
 import { useState } from "react";
 import Card3D from "./components/Card3D";
+import {
+  GUNAJ_EMAIL,
+  BACKEND_API_URL,
+  getGmailComposeUrl,
+  getMailtoUrl,
+  copyToClipboard,
+} from "./utils/mailHelper";
 import "./contact.css";
 
 export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle | sending | success
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [status, setStatus] = useState("idle"); // idle | sending | success | server-asleep
   const [copied, setCopied] = useState(false);
+  const [copyMsgNotice, setCopyMsgNotice] = useState(false);
 
-  function handleCopyEmail() {
-    navigator.clipboard.writeText("gunnajpchugh@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
+  function handleChange(e) {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  async function handleCopyEmail() {
+    const ok = await copyToClipboard(GUNAJ_EMAIL);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    }
+  }
+
+  async function handleCopyEntireMessage() {
+    const textToCopy = `To: ${GUNAJ_EMAIL}\nFrom: ${formData.name} <${formData.email}>\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`;
+    const ok = await copyToClipboard(textToCopy);
+    if (ok) {
+      setCopyMsgNotice(true);
+      setTimeout(() => setCopyMsgNotice(false), 2200);
+    }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("sending");
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const formData = {
-      name: data.get("name") || "",
-      email: data.get("email") || "",
-      subject: data.get("subject") || "",
-      message: data.get("message") || "",
-    };
-
     try {
+      // 10 second timeout for Render free-tier spin up
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 9000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      const res = await fetch("https://gunaj-chugh.onrender.com/api/contact", {
+      const res = await fetch(`${BACKEND_API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,17 +63,27 @@ export default function Contact() {
 
       if (res.ok) {
         setStatus("success");
-        form.reset();
       } else {
-        // Render free tier waking up fallback
-        setStatus("success");
-        form.reset();
+        // Backend returned non-200 (e.g. 500 or 503)
+        setStatus("server-asleep");
       }
     } catch {
-      setStatus("success");
-      form.reset();
+      // Fetch aborted or network failed (Render sleeping / offline)
+      setStatus("server-asleep");
     }
   }
+
+  const directGmailUrl = getGmailComposeUrl({
+    to: GUNAJ_EMAIL,
+    subject: formData.subject || `Inquiry from ${formData.name || "Portfolio Visitor"}`,
+    body: `Hi Gunaj,\n\n${formData.message || "I would like to connect regarding software engineering opportunities."}\n\nBest regards,\n${formData.name || ""}\n${formData.email || ""}`,
+  });
+
+  const directMailtoUrl = getMailtoUrl({
+    to: GUNAJ_EMAIL,
+    subject: formData.subject || `Inquiry from ${formData.name || "Portfolio Visitor"}`,
+    body: `Hi Gunaj,\n\n${formData.message || ""}\n\nBest regards,\n${formData.name || ""}\n${formData.email || ""}`,
+  });
 
   return (
     <div className="contact-page">
@@ -74,86 +105,179 @@ export default function Contact() {
             <span className="terminal-badge">terminal://dispatch-message</span>
             <span className="form-status-indicator">
               <span className="status-dot-sm"></span>
-              API Online
+              Direct Delivery Engine
             </span>
           </div>
 
-          <form onSubmit={handleSubmit} className="styled-contact-form">
-            <div className="input-group-custom">
-              <label htmlFor="contact-name">Your Name</label>
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                placeholder="e.g. Alex Smith"
-                required
-                disabled={status === "sending"}
-              />
-            </div>
-
-            <div className="input-group-custom">
-              <label htmlFor="contact-email">Email Address</label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                placeholder="alex@company.com"
-                required
-                disabled={status === "sending"}
-              />
-            </div>
-
-            <div className="input-group-custom">
-              <label htmlFor="contact-subject">Subject</label>
-              <input
-                id="contact-subject"
-                name="subject"
-                type="text"
-                placeholder="Software Engineering Role / Project Discussion"
-                disabled={status === "sending"}
-              />
-            </div>
-
-            <div className="input-group-custom">
-              <label htmlFor="contact-message">Message</label>
-              <textarea
-                id="contact-message"
-                name="message"
-                rows="4"
-                placeholder="Share your requirements, ideas, or message..."
-                required
-                disabled={status === "sending"}
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="submit-contact-btn"
-              disabled={status === "sending"}
-            >
-              {status === "sending" ? (
-                <>
-                  <span className="spinner-border spinner-border-sm" role="status"></span>
-                  <span>Dispatching Message...</span>
-                </>
-              ) : (
-                <>
-                  <span>Send Message</span>
+          {/* STATE 1: SUCCESS CONFIRMATION */}
+          {status === "success" ? (
+            <div className="form-success-state">
+              <div className="success-badge-icon">&#10003;</div>
+              <h3>Message Dispatched Successfully!</h3>
+              <p>
+                Thank you, <strong>{formData.name}</strong>. Your message has been received by Gunaj's backend service.
+              </p>
+              <div className="success-actions-box">
+                <a
+                  href={directGmailUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="smart-action-btn primary"
+                  title="Open a pre-filled draft in Gmail"
+                >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
-                </>
-              )}
-            </button>
-
-            {status === "success" && (
-              <div className="form-alert-success">
-                <span className="alert-check">✓</span>
-                <span>Message received! Thank you for reaching out. I’ll get back to you shortly.</span>
+                  <span>Also Send via Gmail (1-Click)</span>
+                </a>
+                <button
+                  type="button"
+                  className="smart-action-btn secondary"
+                  onClick={() => {
+                    setFormData({ name: "", email: "", subject: "", message: "" });
+                    setStatus("idle");
+                  }}
+                >
+                  Send Another Message
+                </button>
               </div>
-            )}
-          </form>
+            </div>
+          ) : status === "server-asleep" ? (
+            /* STATE 2: FALLBACK (Render free tier sleeping or network hiccup) */
+            <div className="form-fallback-state">
+              <div className="fallback-badge-icon">&#9888;</div>
+              <h3>Free Backend Server Spinning Up!</h3>
+              <p>
+                Render free tier instances go to sleep when inactive and can take 50 seconds to wake up.
+                <strong> Don't worry! Your message is preserved below.</strong> Send it directly to Gunaj in 1 click:
+              </p>
+
+              <div className="preserved-message-preview">
+                <span className="preview-label">PRESERVED MESSAGE</span>
+                <p className="preview-text">
+                  <strong>Subject:</strong> {formData.subject || "(No subject)"}
+                  <br />
+                  <strong>Message:</strong> {formData.message}
+                </p>
+              </div>
+
+              <div className="fallback-actions-box">
+                <a
+                  href={directGmailUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="smart-action-btn primary"
+                  title="Opens directly in browser Gmail with your message ready"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <span>1-Click Send via Gmail (Guaranteed)</span>
+                </a>
+
+                <div className="fallback-secondary-row">
+                  <a href={directMailtoUrl} className="smart-action-btn secondary">
+                    Default Mail App
+                  </a>
+                  <button
+                    type="button"
+                    className="smart-action-btn secondary"
+                    onClick={handleCopyEntireMessage}
+                  >
+                    {copyMsgNotice ? "Copied!" : "Copy Message"}
+                  </button>
+                  <button
+                    type="button"
+                    className="smart-action-btn secondary"
+                    onClick={handleSubmit}
+                  >
+                    Retry Server
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* STATE 3: FORM */
+            <form onSubmit={handleSubmit} className="styled-contact-form">
+              <div className="input-group-custom">
+                <label htmlFor="contact-name">Your Name</label>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  placeholder="e.g. Alex Smith"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  disabled={status === "sending"}
+                />
+              </div>
+
+              <div className="input-group-custom">
+                <label htmlFor="contact-email">Email Address</label>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  placeholder="alex@company.com"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={status === "sending"}
+                />
+              </div>
+
+              <div className="input-group-custom">
+                <label htmlFor="contact-subject">Subject</label>
+                <input
+                  id="contact-subject"
+                  name="subject"
+                  type="text"
+                  placeholder="Software Engineering Role / Project Discussion"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  disabled={status === "sending"}
+                />
+              </div>
+
+              <div className="input-group-custom">
+                <label htmlFor="contact-message">Message</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  rows="4"
+                  placeholder="Share your requirements, ideas, or message..."
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  disabled={status === "sending"}
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="submit-contact-btn"
+                disabled={status === "sending"}
+              >
+                {status === "sending" ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm" role="status"></span>
+                    <span>Dispatching Message...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </Card3D>
 
         {/* Right: 3D Developer Collaboration Panel */}
@@ -179,7 +303,7 @@ export default function Contact() {
                 </div>
                 <div className="info-text-box">
                   <span className="info-title">Email Directly</span>
-                  <span className="info-sub">gunnajpchugh@gmail.com</span>
+                  <span className="info-sub">{GUNAJ_EMAIL}</span>
                 </div>
                 <button
                   type="button"
@@ -218,15 +342,32 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Quick Action Buttons */}
+            {/* Quick Action Buttons: Guaranteed 100% functional across devices */}
             <div className="cta-buttons">
-              <a href="mailto:gunnajpchugh@gmail.com" className="cta-btn mail-btn">
+              {/* Primary 1-Click Compose in Gmail (works in any browser without local client) */}
+              <a
+                href={getGmailComposeUrl({ subject: "Software Engineering Opportunity - Gunaj Chugh" })}
+                target="_blank"
+                rel="noreferrer"
+                className="cta-btn mail-btn"
+                title="Opens compose window in Gmail directly"
+              >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                Open Mail Client
+                Compose in Gmail
               </a>
+
+              {/* Native Mail Client Fallback */}
+              <a
+                href={getMailtoUrl({ subject: "Software Engineering Opportunity - Gunaj Chugh" })}
+                className="cta-btn"
+                title="Open default desktop mail client (Outlook / Apple Mail)"
+              >
+                Default Mail Client
+              </a>
+
               <a
                 href="https://www.linkedin.com/in/gunnaj/"
                 target="_blank"
@@ -235,6 +376,7 @@ export default function Contact() {
               >
                 Connect on LinkedIn
               </a>
+
               <a
                 href="https://github.com/codedbygunnaj"
                 target="_blank"
