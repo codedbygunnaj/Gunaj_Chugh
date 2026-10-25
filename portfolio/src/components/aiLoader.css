@@ -1,0 +1,213 @@
+.ai-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  width: 100%;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(18, 18, 24, 0.75) 0%, rgba(10, 10, 14, 0.9) 100%);
+  border: 1px solid rgba(250, 204, 21, 0.15);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    0 16px 40px -10px rgba(0, 0, 0, 0.8);
+}
+
+/* Background Laser Sweep */
+.ai-laser-scanner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #facc15, #38bdf8, transparent);
+  box-shadow: 0 0 15px #facc15, 0 0 30px #38bdf8;
+  animation: laser-sweep 2.2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes laser-sweep {
+  0% {
+    top: 0%;
+    opacity: 0.2;
+  }
+  50% {
+    top: 98%;
+    opacity: 0.9;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.2;
+  }
+}
+
+/* 3D Holographic Gyroscope Orb */
+.ai-gyro-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 32px;
+  perspective: 600px;
+  transform-style: preserve-3d;
+}
+
+.gyro-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed;
+  transform-style: preserve-3d;
+}
+
+.ring-outer {
+  border-color: rgba(250, 204, 21, 0.65);
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+  animation: spin-outer 3s linear infinite;
+}
+
+.ring-middle {
+  inset: 12px;
+  border-color: rgba(56, 189, 248, 0.75);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+  animation: spin-middle 2.4s linear infinite reverse;
+}
+
+.ring-inner {
+  inset: 24px;
+  border-color: rgba(167, 139, 250, 0.8);
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.35);
+  animation: spin-inner 1.8s linear infinite;
+}
+
+.gyro-core {
+  position: absolute;
+  inset: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #facc15 0%, #eab308 60%, transparent 100%);
+  box-shadow: 0 0 20px #facc15, 0 0 40px rgba(250, 204, 21, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.core-pulse {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: pulse-core 1.2s infinite ease-in-out;
+}
+
+@keyframes spin-outer {
+  0% { transform: rotateX(60deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(60deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+@keyframes spin-middle {
+  0% { transform: rotateX(-45deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(-45deg) rotateY(360deg) rotateZ(-360deg); }
+}
+
+@keyframes spin-inner {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(0deg); }
+}
+
+@keyframes pulse-core {
+  0%, 100% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 25px #ffffff;
+  }
+}
+
+/* AI Status Box */
+.ai-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 440px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(10, 10, 14, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.ai-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.ai-percentage {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* Progress Track */
+.ai-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ai-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #facc15, #38bdf8);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+  transition: width 0.15s ease-out;
+}
+
+/* Terminal Line */
+.ai-terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #94a3b8;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.terminal-prefix {
+  color: #facc15;
+  font-weight: 700;
+}
+
+.terminal-text {
+  color: #cbd5e1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.terminal-cursor {
+  color: #38bdf8;
+  animation: blink-caret 0.8s infinite;
+}

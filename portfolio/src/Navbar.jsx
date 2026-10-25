@@ -1,38 +1,89 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./navbar.css";
 
 export default function Navbar() {
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: "About", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: "Experience", path: "/experience" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   return (
-    <nav className="custom-navbar">
+    <header className="navbar-wrapper">
+      <nav className="custom-navbar">
+        <div className="nav-container">
+          {/* Logo with Terminal Prompt Style */}
+          <Link className="nav-logo" to="/" onClick={() => setMobileMenuOpen(false)}>
+            <span className="logo-prompt">&gt;</span>
+            <span className="logo-text">codedbygc</span>
+            <span className="logo-cursor">_</span>
+          </Link>
 
-      <div className="nav-container">
+          {/* Desktop Nav Links */}
+          <ul className="nav-links desktop-only">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className={`nav-link-item ${isActive ? "active" : ""}`}
+                  >
+                    {item.name}
+                    {isActive && <span className="active-glow-pill"></span>}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
-        {/* Logo */}
-        <Link className="nav-logo" to="/">codedbygc</Link>
+          {/* Right Status Badge */}
+          <div className="nav-actions desktop-only">
+            <span className="nav-status-pill">
+              <span className="status-dot-sm"></span>
+              Open to Roles
+            </span>
+          </div>
 
-        {/* Links */}
-        <ul className="nav-links">
+          {/* Mobile Menu Button */}
+          <button
+            className={`mobile-toggle ${mobileMenuOpen ? "open" : ""}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
 
-          <li>
-            <Link to="/">About</Link>
-          </li>
-
-          <li>
-            <Link to="/projects">Projects</Link>
-          </li>
-
-          <li>
-            <Link to="/experience">Experience</Link>
-          </li>
-
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-
-        </ul>
-
-      </div>
-
-    </nav>
+        {/* Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div className="mobile-menu-dropdown">
+            <ul className="mobile-links">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <li key={item.path}>
+                    <Link
+                      to={item.path}
+                      className={`mobile-link-item ${isActive ? "active" : ""}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </header>
   );
 }

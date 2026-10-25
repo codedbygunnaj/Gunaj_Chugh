@@ -8,28 +8,36 @@ import Contact from "./Contact";
 import Navbar from "./Navbar";
 import ProfileCard from "./profileCard";
 import Footer from "./Footer";
+import CursorEffect from "./components/CursorEffect";
+import "./App.css";
 
 function App() {
   return (
     <div className="app-layout">
+      {/* Interactive Cursor Particle & Trail System */}
+      <CursorEffect />
 
+      {/* Floating Glassmorphic Navbar */}
       <Navbar />
 
-      <div className="main-body">
-        <ProfileCard />
+      {/* Main Container Layout */}
+      <div className="main-container">
+        {/* Persistent 3D Sidebar */}
+        <aside className="sidebar-col">
+          <ProfileCard />
+        </aside>
 
-        <div className="page-content">
+        {/* Dynamic Route Pages & Unified Footer */}
+        <main className="content-col">
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </div>
-
+          <Footer />
+        </main>
       </div>
-      <Footer />
-
     </div>
   );
 }

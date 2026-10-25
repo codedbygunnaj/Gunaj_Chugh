@@ -175,7 +175,7 @@ export default function Portfolio() {
                 <div className="col-md-4">
                 <div className="achievement-card">
                     <h5>💻 Problem Solving</h5>
-                    <p>Solved 390+ DSA problems across LeetCode & GeeksforGeeks</p>
+                    <p>Solved 600+ DSA problems (350+ on LeetCode) across LeetCode & GeeksforGeeks</p>
                 </div>
                 </div>
 
