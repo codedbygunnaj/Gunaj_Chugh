@@ -35,7 +35,7 @@ const experiences = [
   {
     role: "Product Developement Intern",
     company: "Social[CX]",
-    time: "May, 2026 - Present",
+    time: "May, 2026 - July, 2026",
     current: false,
     summary:
       "Working on product development, debugging, and feature enhancement for a scalable social media analytics platform.",
