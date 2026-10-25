@@ -10,6 +10,7 @@ export default function Navbar() {
     { name: "About", path: "/" },
     { name: "Projects", path: "/projects" },
     { name: "Experience", path: "/experience" },
+    { name: "Tech Stack", path: "/stack" },
     { name: "Contact", path: "/contact" },
   ];
 

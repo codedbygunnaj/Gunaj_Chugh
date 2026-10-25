@@ -141,7 +141,7 @@ export default function Projects() {
 
   useEffect(() => {
     async function fetchGitHubData() {
-      const minLoadTime = new Promise((resolve) => setTimeout(resolve, 1200));
+      const minLoadTime = new Promise((resolve) => setTimeout(resolve, 1900));
 
       try {
         const fetchPromise = fetch(

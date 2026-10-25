@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Portfolio from "./Portfolio";
 import Project from "./Project";
 import Experience from "./Experience";
+import TechStack from "./TechStack";
 import Contact from "./Contact";
 
 import Navbar from "./Navbar";
@@ -33,6 +34,7 @@ function App() {
             <Route path="/" element={<Portfolio />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/experience" element={<Experience />} />
+            <Route path="/stack" element={<TechStack />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />

@@ -13,13 +13,12 @@ const roles = [
 const techStack = [
   { name: "Python", type: "gold" },
   { name: "C++", type: "gold" },
-  { name: "JavaScript / TypeScript", type: "" },
-  { name: "React", type: "cyan" },
   { name: "FastAPI", type: "cyan" },
+  { name: "React", type: "cyan" },
   { name: "PostgreSQL", type: "gold" },
   { name: "SQLAlchemy", type: "" },
-  { name: "Databricks", type: "cyan" },
-  { name: "Azure / GCP", type: "cyan" },
+  { name: "JavaScript / TypeScript", type: "" },
+  { name: "REST APIs", type: "" },
   { name: "Docker", type: "" },
   { name: "Git", type: "" },
 ];
@@ -91,9 +90,9 @@ export default function Portfolio() {
           </p>
 
           <p className="about-lead">
-            Built scalable systems involving <strong>cloud migrations (GCP to Azure)</strong>,{" "}
-            <strong>ETL data pipelines</strong>, and <strong>API-driven architectures</strong>, with a{" "}
-            <em>focus on efficient, reliable, and low-latency infrastructure</em>.
+            Experienced in building <strong>full-stack web applications</strong>,{" "}
+            <strong>RESTful backend APIs</strong>, and <strong>automated data pipelines</strong>, with a{" "}
+            <em>focus on clean architecture, relational database schemas, and efficient problem solving</em>.
           </p>
 
           <p className="about-lead">
@@ -165,12 +164,12 @@ export default function Portfolio() {
             </div>
             <h4>Backend & Data Engineering</h4>
             <p>
-              Architecting high-throughput APIs, database schemas, and data pipelines utilizing PostgreSQL, SQLAlchemy, Databricks, and cloud infrastructure.
+              Developing robust APIs, relational database schemas, and data pipelines using FastAPI, PostgreSQL, SQLAlchemy, and modern cloud services.
             </p>
             <div className="card-pills">
+              <span className="tech-pill cyan">FastAPI</span>
               <span className="tech-pill cyan">PostgreSQL</span>
-              <span className="tech-pill cyan">Databricks</span>
-              <span className="tech-pill cyan">Azure</span>
+              <span className="tech-pill cyan">Python</span>
             </div>
           </Card3D>
 

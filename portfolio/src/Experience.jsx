@@ -8,14 +8,14 @@ const experiences = [
     time: "October, 2026 - Present",
     current: true,
     summary:
-      "Working on backend engineering, data-driven systems, and product features driving user growth, transactions, and cloud infrastructure modernization.",
+      "Contributing as an SDE Intern to backend services, focusing on core APIs, database queries, and ramping up on product workflows and cloud migration.",
     bullets: [
-      "Developed and maintained backend APIs, optimized database queries, and implemented core business logic for growth, coupons, and cashback services",
-      "Contributed to financial and transactional workflows, handling chargebacks and Gross Merchandise Value (GMV) computation pipelines",
-      "Participated in the cloud migration from GCP to Azure, building and managing migration-related workflows using Databricks and Microsoft Fabric",
-      "Debugged production issues, analyzed legacy codebases, and collaborated cross-functionally to deliver scalable product enhancements",
+      "Working on backend APIs, database queries, and business logic powering growth, coupon distribution, and cashback features",
+      "Assisting with product data workflows and gaining exposure to chargebacks and Gross Merchandise Value (GMV) computation routines",
+      "Ramping up on the team's planned cloud migration from GCP to Azure, exploring migration workflows with Databricks and Microsoft Fabric",
+      "Navigating large-scale production codebases, debugging backend flows, and collaborating with senior engineers on product features",
     ],
-    tech: ["Databricks", "Microsoft Fabric", "Azure", "GCP", "FastAPI / APIs", "PostgreSQL", "GMV Pipelines"],
+    tech: ["FastAPI / Python", "Backend APIs", "PostgreSQL", "Database Queries", "GCP & Azure (Migration)","Java"],
   },
   {
     role: "Software Development Intern",

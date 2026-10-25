@@ -3,32 +3,32 @@ import "./aiLoader.css";
 
 const telemetrySteps = [
   "CONNECTING_TO_GITHUB_GRAPH_API...",
-  "RESOLVING_LIVE_DEPLOYMENTS...",
-  "PARSING_ENGINEERING_REPOSITORIES...",
-  "SYNCHRONIZING_3D_METRICS...",
-  "AI_TELEMETRY_READY.",
+  "PARSING_REPOSITORIES_AND_TELEMETRY...",
+  "RESOLVING_LIVE_DEPLOYMENTS_AND_SYSTEMS...",
+  "SYNCHRONIZING_3D_PROJECT_MATRICES...",
+  "AI_TELEMETRY_INITIALIZED_READY.",
 ];
 
 export default function AILoader() {
   const [stepIndex, setStepIndex] = useState(0);
-  const [progress, setProgress] = useState(15);
+  const [progress, setProgress] = useState(12);
 
   useEffect(() => {
-    // Step progression timer
+    // Step progression paced smoothly over ~1.9s
     const stepInterval = setInterval(() => {
       setStepIndex((prev) => (prev < telemetrySteps.length - 1 ? prev + 1 : prev));
-    }, 280);
+    }, 360);
 
-    // Progress counter animation
+    // Progress counter animation reaching 100% at ~1.85s
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 98) {
           clearInterval(progressInterval);
-          return 99;
+          return 100;
         }
-        return prev + Math.floor(Math.random() * 15 + 8);
+        return prev + Math.floor(Math.random() * 8 + 4);
       });
-    }, 120);
+    }, 90);
 
     return () => {
       clearInterval(stepInterval);
